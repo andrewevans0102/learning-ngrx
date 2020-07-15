@@ -1,11 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { Store, select } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { Order } from "../models/order";
-// import { selectOrders, selectError } from "../state/orders/orders.reducer";
-import { OrdersActions, selectOrders } from "../state/orders";
-import { LoginActions } from "../state/login";
+import { OrdersService } from "../services/orders/orders.service";
+import { LoginService } from "../services/login/login.service";
 
 @Component({
   selector: "app-view-orders",
@@ -15,10 +12,20 @@ import { LoginActions } from "../state/login";
 export class ViewOrdersComponent implements OnInit {
   orders$: Observable<any>;
   error$: Observable<any>;
+  orders: any;
 
-  constructor(private router: Router, private store: Store<{}>) {
-    this.store.dispatch(OrdersActions.loadOrders());
-    this.orders$ = this.store.pipe(select(selectOrders));
+  constructor(
+    private router: Router,
+    private orderService: OrdersService,
+    private loginService: LoginService
+  ) {
+    this.orderService.retrieveOrders().subscribe((response) => {
+      if (response instanceof Error) {
+        alert(response);
+      } else {
+        this.orders = response;
+      }
+    });
   }
 
   ngOnInit(): void {}
@@ -28,7 +35,19 @@ export class ViewOrdersComponent implements OnInit {
   }
 
   deleteOrder(id: string) {
-    this.store.dispatch(OrdersActions.deleteOrder({ id: id }));
+    this.orderService.deleteOrder(id).subscribe((response) => {
+      if (response instanceof Error) {
+        alert(response);
+      } else {
+        this.orderService.retrieveOrders().subscribe((response) => {
+          if (response instanceof Error) {
+            alert(response);
+          } else {
+            this.orders = response;
+          }
+        });
+      }
+    });
   }
 
   goHome() {
@@ -36,7 +55,12 @@ export class ViewOrdersComponent implements OnInit {
   }
 
   logout() {
-    this.store.dispatch(LoginActions.loadLogout());
-    this.router.navigate(["/home"]);
+    this.loginService.logout().subscribe((response) => {
+      if (response instanceof Error) {
+        alert(response);
+      } else {
+        this.router.navigate(["/home"]);
+      }
+    });
   }
 }

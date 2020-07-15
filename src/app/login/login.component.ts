@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { Store, select } from "@ngrx/store";
-import { LoginActions } from "../state/login";
+import { LoginService } from "../services/login/login.service";
 
 @Component({
   selector: "app-login",
@@ -12,14 +11,18 @@ export class LoginComponent implements OnInit {
   email: string;
   password: string;
 
-  constructor(private router: Router, private store: Store<{}>) {}
+  constructor(private router: Router, private loginService: LoginService) {}
 
   ngOnInit(): void {}
 
   login() {
-    this.store.dispatch(
-      LoginActions.loadLogin({ name: "hello", password: "1234" })
-    );
-    this.router.navigate(["/view-orders"]);
+    this.loginService.login(this.email, this.password).subscribe((response) => {
+      if (response instanceof Error) {
+        alert(response);
+        return;
+      } else {
+        this.router.navigate(["/view-orders"]);
+      }
+    });
   }
 }

@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { Order } from "../models/order";
-import { Store } from "@ngrx/store";
-import { OrdersActions } from "../state/orders";
+import { OrdersService } from "../services/orders/orders.service";
 
 @Component({
   selector: "app-orders-form",
@@ -13,18 +11,20 @@ export class OrdersFormComponent implements OnInit {
   name: string;
   description: string;
 
-  constructor(private router: Router, private store: Store<{}>) {}
+  constructor(private router: Router, private orderService: OrdersService) {}
 
   ngOnInit(): void {}
 
   createOrder() {
-    this.store.dispatch(
-      OrdersActions.createOrder({
-        name: this.name,
-        description: this.description,
-      })
-    );
-    this.router.navigate(["/view-orders"]);
+    this.orderService
+      .createOrder(this.name, this.description)
+      .subscribe((response) => {
+        if (response instanceof Error) {
+          alert(response);
+        } else {
+          this.router.navigate(["/view-orders"]);
+        }
+      });
   }
 
   goHome() {

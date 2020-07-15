@@ -1,6 +1,6 @@
 <div class="wrapper">
   <h1>Orders</h1>
-  <section *ngIf="orders$ | async as orders">
+  <section *ngIf="orders !== undefined">
     <article *ngIf="orders.length === 0">
       <p>No orders so far!</p>
     </article>
