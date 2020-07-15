@@ -1,0 +1,42 @@
+label {
+  margin-right: 20px;
+  width: 100px;
+  text-align: right;
+}
+
+button {
+  margin: 20px;
+  border-radius: 20px;
+}
+
+.bottom {
+  display: flex;
+  justify-content: center;
+  border: solid;
+  width: 400px;
+  margin: 20px;
+  border-radius: 20px;
+
+  button {
+    width: 100px;
+    background-color: blue;
+    color: white;
+  }
+}
+
+.form-input {
+  display: flex;
+  align-items: center;
+  margin: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

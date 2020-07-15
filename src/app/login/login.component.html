@@ -1,0 +1,26 @@
+<form #loginForm="ngForm" (ngSubmit)="login()">
+  <div>
+    <label for="exampleInputEmail1">Email address</label>
+    <input
+      type="email"
+      id="exampleInputEmail1"
+      aria-describedby="emailHelp"
+      placeholder="Enter email"
+      [(ngModel)]="email"
+      name="email"
+    />
+  </div>
+  <div>
+    <label for="exampleInputPassword1">Password</label>
+    <input
+      type="password"
+      id="exampleInputPassword1"
+      placeholder="Password"
+      [(ngModel)]="password"
+      name="password"
+    />
+  </div>
+  <button type="submit">
+    Login
+  </button>
+</form>

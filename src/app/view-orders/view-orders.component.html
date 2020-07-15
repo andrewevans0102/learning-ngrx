@@ -1,0 +1,25 @@
+<div class="wrapper">
+  <h1>Orders</h1>
+  <section *ngIf="orders$ | async as orders">
+    <article *ngIf="orders.length === 0">
+      <p>No orders so far!</p>
+    </article>
+    <ul *ngFor="let order of orders">
+      <li>
+        <div class="order">
+          <span><span class="heading">name:</span> {{ order.name }}</span>
+          <span
+            ><span class="heading">description: </span>
+            {{ order.description }}</span
+          >
+          <button (click)="deleteOrder(order.id)">delete</button>
+        </div>
+      </li>
+    </ul>
+  </section>
+  <div class="toolbar">
+    <button (click)="goToOrdersForm()">create</button>
+    <button (click)="goHome()">home</button>
+    <button (click)="logout()">logout</button>
+  </div>
+</div>
